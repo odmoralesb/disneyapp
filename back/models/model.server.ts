@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 
-//import authRoutes from "../routes/route.auth";
+import authRoutes from "../routes/route.auth";
 
 
 import db from "../db/connection";
@@ -55,7 +55,7 @@ class Server {
     }
 
     routes() {
-        //this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.auth, authRoutes);
 
         this.app.get("/*", (req, res) => {
             const path = process.env.INDEX_PATH || "";
