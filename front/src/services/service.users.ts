@@ -19,6 +19,17 @@ export const createadminsu = (request: Request.IRequestCreateAdmin) => {
     };
 };
 
+export const registeruser = (request: Request.IRequestCreateAdmin) => {
+    const controller = loadAbort();
+    const token: string | null = persistToken.get();
+    const axios = createAxios(config.API_URL, token);
+    return {
+        call: axios.post<IUserData>('/auth/register', request, { signal: controller.signal }).catch((e) => {
+            return e.response;
+        }),
+        controller
+    };
+};
 
 export const createadmin = (request: Request.IRequestCreateAdmin) => {
     const controller = loadAbort();

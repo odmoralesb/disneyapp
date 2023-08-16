@@ -1,7 +1,7 @@
 export enum Role {
     ADMINDB = 'ADMIN-DB',
     SU = 'SUPERADMIN',
-    ADMIN = 'ADMIN'
+    USER = 'USER'
 }
 
 export interface IUserState {

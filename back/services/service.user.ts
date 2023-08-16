@@ -63,14 +63,14 @@ export const registerUser = async (req: Request): Promise<IResponse> => {
         const { body } = req;
         const errors = [...(await validateUser({ ...body }))];
         if (errors.length == 0) {
-            const user = (await RepositoryUser.save(body)).toJSON();
+            const usuario = (await RepositoryUser.save(body)).toJSON();
 
-            const { id, password, ...response } = user;
+            const { id, clave, ...response } = usuario;
 
             return {
                 status: 200,
                 messages: [],
-                payload: { user: response }
+                payload: { usuario: response }
             };
         } else {
             return { status: 409, errors };

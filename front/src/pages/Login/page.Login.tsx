@@ -31,16 +31,17 @@ const Login: React.FC = () => {
                         {...register('nombreusuario', { required: 'El usuario es requerido' })}
                     />
                     <div className="error-form">{displayErrorForm<TLogin>(errors, 'nombreusuario')}</div>
-                    <TextField
-                        margin="normal"
-                        fullWidth
-                        label="Contraseña"
-                        type="password"
-                        {...register('clave')}
-                    />
+                    <TextField margin="normal" fullWidth label="Contraseña" type="password" {...register('clave')} />
                     <div className="error-form">{displayErrorForm<TLogin>(errors, 'clave')}</div>
                     <Button fullWidth variant="contained" color="primary" onClick={handleSubmit((data) => onSubmit(data))}>
                         Iniciar sesión
+                    </Button>
+                    <br />
+                    <br />
+                    <Button fullWidth variant="contained" color="secondary">
+                        <a style={{ textDecoration: 'none', color: '#FFFFFF' }} href="/register">
+                            Registrese
+                        </a>
                     </Button>
                 </form>
             </div>

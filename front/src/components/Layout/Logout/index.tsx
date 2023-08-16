@@ -3,6 +3,10 @@ import { PublicRoutes } from '../../../models';
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../../redux/states';
 
+import IconButton from '@mui/material/IconButton';
+import PersonIcon from '@mui/icons-material/Person';
+import ListItemText from '@mui/material/ListItemText';
+
 export const Logout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -12,11 +16,9 @@ export const Logout = () => {
         navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
     };
     return (
-        <li>
-            <a className="dropdown-item" onClick={logOut} href="#">
-                Cerrar sesión
-            </a>
-        </li>
+        <IconButton color="inherit">
+            <PersonIcon onClick={logOut} />
+        </IconButton>
     );
 };
 

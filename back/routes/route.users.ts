@@ -3,9 +3,7 @@ import { check } from "express-validator";
 
 import { validateFields, validateJWTAdminDB } from "../middlewares";
 
-import {
-    createAdminSU
-} from "../controllers/controller.users";
+import { createAdminSU } from "../controllers/controller.users";
 
 const router = Router();
 
@@ -22,6 +20,5 @@ router.post(
     ],
     createAdminSU
 );
-
 
 export default router;

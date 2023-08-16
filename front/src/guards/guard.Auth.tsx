@@ -20,7 +20,11 @@ export const AuthGuard = ({ roles }: IProps) => {
             return roles?.includes(userRole) ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
         default:
             if (roles) {
-                return userState.nombreusuario && roles.includes(userRole) ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
+                return userState.nombreusuario && roles.includes(userRole) ? (
+                    <Outlet />
+                ) : (
+                    <Navigate replace to={`/${PublicRoutes.LOGIN}`} />
+                );
             } else {
                 return userState.nombreusuario ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
             }
