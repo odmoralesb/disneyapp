@@ -18,6 +18,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listitems';
 
+import { useSelector } from 'react-redux';
+import { IAppStore } from '../../../redux/store';
+
 import { Outlet } from 'react-router';
 
 // Components
@@ -90,6 +93,8 @@ export default function NavbarComponent() {
         setOpen(!open);
     };
 
+    const userState = useSelector((store: IAppStore) => store.usuario);
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Box sx={{ display: 'flex' }}>
@@ -113,7 +118,7 @@ export default function NavbarComponent() {
                             <MenuIcon />
                         </IconButton>
                         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                            Dashboard
+                            Dashboard - {`${userState.nombreusuario}`}
                         </Typography>
                         <Logout />
                     </Toolbar>
