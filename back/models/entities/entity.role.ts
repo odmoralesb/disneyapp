@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../../db/connection";
 
-const Rol = db.define(
+const Role = db.define(
     "role",
     {
         id: {
@@ -21,4 +21,4 @@ const Rol = db.define(
     }
 );
 
-export default Rol;
+export default Role;

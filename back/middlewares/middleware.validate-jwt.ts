@@ -11,6 +11,8 @@ export const validateJWTAdminDB = async (
 ) => {
     const token = req.header("x-token");
 
+    
+
     if (!token) {
         return res
             .status(401)
@@ -20,16 +22,17 @@ export const validateJWTAdminDB = async (
     try {
         const SECRETORPRIVATEKEY = process.env.SECRETORPRIVATEKEY || "";
 
-        const { username, role } = jwt.verify(
+        const { nombreusuario, rol } = jwt.verify(
             token,
             SECRETORPRIVATEKEY
         ) as IToken;
 
-        if (!username) {
+
+        if (!nombreusuario) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        if (role !== "ADMIN-DB") {
+        if (rol !== "ADMIN-DB") {
             return res.status(401).json({
                 errors: [
                     "Usuario no tiene autorizacion para realizar esta peticion"
@@ -59,6 +62,8 @@ export const validateJWTSUAdmin = async (
 
     try {
         const SECRETORPRIVATEKEY = process.env.SECRETORPRIVATEKEY || "";
+
+        console.log("# TOKEN SECRETORPRIVATEKEY: ", SECRETORPRIVATEKEY)
 
         const { id } = jwt.verify(token, SECRETORPRIVATEKEY) as IToken;
 

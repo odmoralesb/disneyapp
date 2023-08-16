@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import db from "../../db/connection";
-import Rol from "./entity.role";
+import Role from "./entity.role";
 
-const Usuario = db.define(
+const User = db.define(
     "user",
     {
         id: {
@@ -36,8 +36,8 @@ const Usuario = db.define(
     }
 );
 
-Usuario.belongsTo(Rol, {
+User.belongsTo(Role, {
     foreignKey: "rol_id"
 });
 
-export default Usuario;
+export default User;

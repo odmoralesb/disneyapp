@@ -4,33 +4,18 @@ import bcryptjs from "bcryptjs";
 import { Role, User } from "../models/entities";
 import { IUser } from "../models/model.interfaces";
 
-import * as RepositoryRole from "./repository.role";
-
-export const existsEmail = async (email: string) => {
-    const u = await User.findOne({
-        where: { email }
-    });
-    return u != null;
-};
 
 export const existsUser = async (username: string) => {
     const u = await User.findOne({
-        where: { username }
+        where: { nombreusuario: username }
     });
     return u != null;
 };
 
-export const existsDoctor = async (username: string) => {
-    const role_id = (await RepositoryRole.get({ name: "DOCTOR" }))?.toJSON().id;
-    const d = await User.findOne({
-        where: { username, role_id }
-    });
-    return d != null;
-};
 
 export const existsUsername = async (username: string) => {
     const u = await User.findOne({
-        where: { username }
+        where: { nombreusuario: username }
     });
     return u != null;
 };
@@ -42,7 +27,7 @@ export const existsSU = (username: string) => {
 
 export const getSuperUser = async () => {
     const u = await User.findOne({
-        where: { is_superuser: true }
+        where: { superusuario: true }
     });
     return u;
 };
@@ -50,58 +35,6 @@ export const getSuperUser = async () => {
 export const getUser = async (id: Identifier) => {
     const u = await User.findByPk(id, { include: { model: Role } });
     return u;
-};
-
-export const getUsersBySpecification = async (
-    specifications = {},
-    page: number,
-    size: number,
-    term: string = ""
-) => {
-    let filter = {};
-
-    if (term !== "") {
-        filter = {
-            [Op.or]: [
-                {
-                    username: {
-                        [Op.like]: `%${term}%`
-                    }
-                },
-                {
-                    firstname: {
-                        [Op.like]: `%${term}%`
-                    }
-                },
-                {
-                    lastname: {
-                        [Op.like]: `%${term}%`
-                    }
-                }
-            ]
-        };
-    }
-
-    const { count } = await User.findAndCountAll({
-        where: { ...specifications, ...filter }
-    });
-
-    if (page === 0 && size === 0) {
-        const rows = await User.findAll({
-            where: { ...specifications, ...filter }
-        });
-        return { totals: count, rows };
-    } else {
-        const offset = (page - 1) * size;
-        const limit = size;
-
-        const rows = await User.findAll({
-            where: { ...specifications, ...filter },
-            offset,
-            limit
-        });
-        return { totals: count, rows };
-    }
 };
 
 export const getUserBySpecification = async (specifications = {}) => {
@@ -143,13 +76,6 @@ export const resetpass = async (entity: Model, password: string) => {
 export const getUserByUsername = async (username: string) => {
     const u = await User.findOne({
         where: { username }
-    });
-    return u;
-};
-
-export const getUserByEmail = async (email: string) => {
-    const u = await User.findOne({
-        where: { email }
     });
     return u;
 };

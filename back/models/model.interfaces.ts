@@ -1,7 +1,7 @@
 export interface IToken {
     id?: number;
-    username: string;
-    role: string;
+    nombreusuario: string;
+    rol: string;
     exp: number;
     iat: number;
 }

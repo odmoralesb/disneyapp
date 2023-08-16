@@ -18,18 +18,18 @@ export const login = async (req: Request): Promise<IResponse> => {
         const DB_USERNAME = process.env.DB_USERNAME;
         const DB_PASSWORD = process.env.DB_PASSWORD;
 
-        if (body.username == DB_USERNAME) {
-            if (body.password == DB_PASSWORD) {
+        if (body.nombreusuario == DB_USERNAME) {
+            if (body.clave == DB_PASSWORD) {
                 const token = await generateJWT({
-                    username: DB_USERNAME,
-                    role: "ADMIN-DB"
+                    nombreusuario: DB_USERNAME,
+                    rol: "ADMIN-DB"
                 });
 
                 return {
                     status: 200,
                     payload: {
                         token,
-                        user: { role: { name: "ADMIN-DB" } }
+                        usuario: { rol: { nombre: "ADMIN-DB" } }
                     }
                 };
             } else {
@@ -37,7 +37,7 @@ export const login = async (req: Request): Promise<IResponse> => {
             }
         } else {
             const entityUser = await RepositoryUser.getUserByUsername(
-                body.username
+                body.nombreusuario
             );
 
             if (!!!entityUser) {
@@ -46,31 +46,31 @@ export const login = async (req: Request): Promise<IResponse> => {
 
             const u = entityUser.toJSON<IUser>();
 
-            const { id, password, createdAt, updatedAt, role_id, ...user } = (
+            const { id, clave, createdAt, updatedAt, rol_id, ...usuario } = (
                 await RepositoryUser.getUser(u.id || 0)
             )?.toJSON();
 
             const validatePassCrypt = bcryptjs.compareSync(
-                body.password,
-                password
+                body.clave,
+                clave
             );
 
             if (!validatePassCrypt) {
                 return { status: 409, errors: ["Acceso Denegado"] };
             }
 
-            if (user.is_superuser) {
-                user.role.name = "SUPERADMIN";
+            if (usuario.superusuario) {
+                usuario.rol.nombre = "SUPERADMIN";
             }
 
             const token = await generateJWT({
                 id: u.id,
-                role: user?.role?.name
+                rol: usuario?.rol?.nombre
             });
 
             return {
                 status: 200,
-                payload: { token, user }
+                payload: { token, usuario }
             };
         }
     } catch (error) {
@@ -104,9 +104,9 @@ export const signin = async (req: Request): Promise<IResponse> => {
             );
         })
             .then(async (res) => {
-                const { id, role } = res as IToken;
+                const { id, rol } = res as IToken;
 
-                if (role === "ADMIN-DB") {
+                if (rol === "ADMIN-DB") {
                     return {
                         status: 200,
                         payload: { token: false, expirated: false }
