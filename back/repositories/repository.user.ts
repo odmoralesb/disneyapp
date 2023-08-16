@@ -4,14 +4,12 @@ import bcryptjs from "bcryptjs";
 import { Role, User } from "../models/entities";
 import { IUser } from "../models/model.interfaces";
 
-
 export const existsUser = async (username: string) => {
     const u = await User.findOne({
         where: { nombreusuario: username }
     });
     return u != null;
 };
-
 
 export const existsUsername = async (username: string) => {
     const u = await User.findOne({
@@ -33,7 +31,7 @@ export const getSuperUser = async () => {
 };
 
 export const getUser = async (id: Identifier) => {
-    const u = await User.findByPk(id, { include: { model: Role } });
+    const u = await User.findByPk(id, { include: { model: Role, as: "rol" } });
     return u;
 };
 
@@ -75,7 +73,7 @@ export const resetpass = async (entity: Model, password: string) => {
 
 export const getUserByUsername = async (username: string) => {
     const u = await User.findOne({
-        where: { username }
+        where: { nombreusuario: username }
     });
     return u;
 };

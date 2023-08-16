@@ -5,7 +5,7 @@ import * as ServiceRole from "../services/service.role";
 
 export const createAdminSU = async (req: Request, res: Response) => {
     req.body.superusuario = true;
-    req.body.role_id = await ServiceRole.getRole("ADMIN");
+    req.body.rol_id = await ServiceRole.getRole("ADMIN");
 
     const { status, ...response } = await ServiceUser.registerAdminSU(req);
 

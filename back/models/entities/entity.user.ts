@@ -37,6 +37,7 @@ const User = db.define(
 );
 
 User.belongsTo(Role, {
+    as: "rol",
     foreignKey: "rol_id"
 });
 

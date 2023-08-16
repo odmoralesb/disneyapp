@@ -2,12 +2,8 @@
 import { Request } from "express";
 import { Op } from "sequelize";
 
-
 // models
-import {
-    IResponse,
-    IUser
-} from "../models/model.interfaces";
+import { IResponse, IUser } from "../models/model.interfaces";
 
 // repositories
 import * as RepositoryUser from "../repositories/repository.user";
@@ -16,7 +12,6 @@ import * as RepositoryUser from "../repositories/repository.user";
 import * as ServiceRole from "./service.role";
 
 // helpers
-
 
 export const registerAdminSU = async (req: Request): Promise<IResponse> => {
     try {
@@ -63,13 +58,10 @@ export const registerAdminSU = async (req: Request): Promise<IResponse> => {
     }
 };
 
-
 export const registerUser = async (req: Request): Promise<IResponse> => {
     try {
         const { body } = req;
-        const errors = [
-            ...(await validateUser({ ...body }))
-        ];
+        const errors = [...(await validateUser({ ...body }))];
         if (errors.length == 0) {
             const user = (await RepositoryUser.save(body)).toJSON();
 
@@ -94,7 +86,6 @@ export const registerUser = async (req: Request): Promise<IResponse> => {
     }
 };
 
-
 export const getUser = async (
     username: string,
     role_id: number
@@ -102,20 +93,20 @@ export const getUser = async (
     try {
         const entityUser = await RepositoryUser.getUserBySpecification({
             [Op.and]: [
-                { username, role_id },
+                { nombreusuario: username, rol_id: role_id },
                 {
                     [Op.not]: {
-                        is_superuser: 1
+                        superusuario: 1
                     }
                 }
             ]
         });
 
         if (entityUser) {
-            const { id, password, role_id, ...user } = entityUser.toJSON();
+            const { id, clave, rol_id, ...usuario } = entityUser.toJSON();
             return {
                 status: 200,
-                payload: { user }
+                payload: { usuario }
             };
         } else {
             return { status: 409, errors: ["Usuario no registrado"] };
@@ -167,7 +158,6 @@ export const updateUser = async (
         const { id, password, role_id, ...user } =
             entityUser &&
             (await RepositoryUser.update(entityUser, body)).toJSON();
-
 
         return {
             status: 200,
@@ -269,7 +259,6 @@ export const deleteUser = async (
     }
 };
 
-
 // local validations
 
 const validateUserSU = async (user: IUser): Promise<string[]> => {
@@ -281,8 +270,6 @@ const validateUserSU = async (user: IUser): Promise<string[]> => {
     return errors;
 };
 
-
-
 const validateUser = async (user: IUser): Promise<string[]> => {
     const errors: string[] = [];
 
@@ -291,4 +278,3 @@ const validateUser = async (user: IUser): Promise<string[]> => {
 
     return errors;
 };
-

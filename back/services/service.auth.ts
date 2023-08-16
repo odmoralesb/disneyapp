@@ -50,10 +50,7 @@ export const login = async (req: Request): Promise<IResponse> => {
                 await RepositoryUser.getUser(u.id || 0)
             )?.toJSON();
 
-            const validatePassCrypt = bcryptjs.compareSync(
-                body.clave,
-                clave
-            );
+            const validatePassCrypt = bcryptjs.compareSync(body.clave, clave);
 
             if (!validatePassCrypt) {
                 return { status: 409, errors: ["Acceso Denegado"] };
