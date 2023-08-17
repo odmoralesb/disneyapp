@@ -10,7 +10,7 @@ import { TCreateAdminSU } from './model.Register';
 import { resetUser } from '../../redux/states';
 
 //services
-import { registeruser } from '../../services/service.users';
+import { registeruser } from '../../services/service.auth';
 
 // adapters
 import { setResponseAdapter } from '../../adapters';
