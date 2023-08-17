@@ -15,7 +15,7 @@ import { displayErrorForm } from '../../utils/helpers';
 
 // style components
 
-const CreateAdminSU: React.FC = () => {
+const Register: React.FC = () => {
     const { register, handleSubmit, onSubmit, errors } = useRegister();
 
     return (
@@ -74,4 +74,4 @@ const CreateAdminSU: React.FC = () => {
     );
 };
 
-export default CreateAdminSU;
+export default Register;

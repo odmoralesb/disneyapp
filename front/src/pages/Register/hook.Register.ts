@@ -21,7 +21,7 @@ import { useDisplayMessages } from '../../hooks/messages';
 
 // Helpers
 
-export const usePageCreateAdminSU = () => {
+export const usePageRegister = () => {
     const {
         register,
         handleSubmit,
@@ -66,4 +66,4 @@ export const usePageCreateAdminSU = () => {
     return { register, handleSubmit, onSubmit, errors };
 };
 
-export default usePageCreateAdminSU;
+export default usePageRegister;
