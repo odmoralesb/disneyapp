@@ -11,6 +11,8 @@ import { AuthGuard } from '../../guards';
 
 // Pages
 import { Home } from './Home';
+import { Movies } from './Movies';
+import { Characters } from './Characters';
 
 //lazy loading - layouts
 const Layout = lazy(() => import('../../components/Layout/Navbar'));
@@ -20,6 +22,8 @@ export const Dashboard = () => {
         <RouteNotFound>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
+                <Route path={`/${PrivateRoutes.MOVIES}`} element={<Movies />} />
+                <Route path={`/${PrivateRoutes.CHARACTERS}`} element={<Characters />} />
             </Route>
         </RouteNotFound>
     );

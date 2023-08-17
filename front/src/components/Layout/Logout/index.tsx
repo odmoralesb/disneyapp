@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { resetUser } from '../../../redux/states';
 
 import IconButton from '@mui/material/IconButton';
-import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Person';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ export const Logout = () => {
     };
     return (
         <IconButton color="inherit">
-            <PersonIcon onClick={logOut} />
+            <LockIcon onClick={logOut} />
         </IconButton>
     );
 };
