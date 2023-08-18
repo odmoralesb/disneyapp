@@ -155,8 +155,7 @@ export default function NavbarComponent() {
                                     sx={{
                                         p: 2,
                                         display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240
+                                        flexDirection: 'column'
                                     }}
                                 >
                                     <Outlet />
