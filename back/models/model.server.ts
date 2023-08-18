@@ -3,6 +3,7 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 
 import authRoutes from "../routes/route.auth";
+import charactersRoutes from "../routes/route.characters";
 
 import db from "../db/connection";
 
@@ -10,7 +11,8 @@ class Server {
     private app: Application;
     private port: string;
     private apiPaths = {
-        auth: "/api/auth"
+        auth: "/api/auth",
+        characters: "/api/characters"
     };
 
     constructor() {
@@ -55,6 +57,7 @@ class Server {
 
     routes() {
         this.app.use(this.apiPaths.auth, authRoutes);
+        this.app.use(this.apiPaths.characters, charactersRoutes);
 
         this.app.get("/*", (req, res) => {
             const path = process.env.INDEX_PATH || "";

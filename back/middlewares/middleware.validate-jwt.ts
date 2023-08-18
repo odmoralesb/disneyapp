@@ -11,8 +11,6 @@ export const validateJWTAdminDB = async (
 ) => {
     const token = req.header("x-token");
 
-    
-
     if (!token) {
         return res
             .status(401)
@@ -26,7 +24,6 @@ export const validateJWTAdminDB = async (
             token,
             SECRETORPRIVATEKEY
         ) as IToken;
-
 
         if (!nombreusuario) {
             return res.status(401).json({ errors: ["Token invalido"] });
@@ -63,7 +60,7 @@ export const validateJWTSUAdmin = async (
     try {
         const SECRETORPRIVATEKEY = process.env.SECRETORPRIVATEKEY || "";
 
-        console.log("# TOKEN SECRETORPRIVATEKEY: ", SECRETORPRIVATEKEY)
+        console.log("# TOKEN SECRETORPRIVATEKEY: ", SECRETORPRIVATEKEY);
 
         const { id } = jwt.verify(token, SECRETORPRIVATEKEY) as IToken;
 
@@ -183,5 +180,3 @@ export const validateJWT = async (
         res.status(401).json({ errors: ["Token invalido"] });
     }
 };
-
-

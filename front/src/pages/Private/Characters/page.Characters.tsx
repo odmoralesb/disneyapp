@@ -1,11 +1,8 @@
 import {
-    Box,
-    Button,
     Card,
     CardActions,
     CardContent,
     IconButton,
-    Paper,
     Table,
     TableBody,
     TableCell,
@@ -14,7 +11,6 @@ import {
     TableRow
 } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export const Characters = () => {
@@ -25,7 +21,6 @@ export const Characters = () => {
             <Typography variant="h6" sx={{ width: '100%', backgroundColor: '#CCCCCC', p: '3px 10px 3px 10px', color: 'blue' }}>
                 Personajes
             </Typography>
-
             <Card sx={{ minWidth: 275, mt: '7px' }}>
                 <CardActions sx={{ backgroundColor: '#C4D3DC' }}>
                     <IconButton color="primary" aria-label="add an alarm">
@@ -37,12 +32,22 @@ export const Characters = () => {
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Imagen</TableCell>
-                                    <TableCell align="right">Nombre</TableCell>
-                                    <TableCell align="right">Edad</TableCell>
-                                    <TableCell align="right">Peso</TableCell>
-                                    <TableCell align="right">Historia</TableCell>
-                                    <TableCell align="right">Peliculas</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Imagen</TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                                        Nombre
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                                        Edad
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                                        Peso
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                                        Historia
+                                    </TableCell>
+                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
+                                        Películas
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
