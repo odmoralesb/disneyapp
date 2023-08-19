@@ -53,3 +53,32 @@ export const getCharacters = async (req: Request): Promise<IResponse> => {
         };
     }
 };
+
+export const registerCharacter = async (req: Request): Promise<IResponse> => {
+    try {
+        const { body } = req;
+
+        const errors: any = [];
+
+        if (errors.length > 0) {
+            return { status: 409, errors };
+        }
+
+        const charcater = (await RepositoryCharacter.save(body)).toJSON();
+
+        const { id, updatedAt, createdAt, ...response } = charcater;
+
+        return {
+            status: 200,
+            payload: { charcater: response }
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            errors: [
+                "Ocurrio un error interno en el servidor. Hable con el administrador"
+            ]
+        };
+    }
+};

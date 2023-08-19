@@ -1,5 +1,4 @@
-import { IResponsePersonajes } from '../models/model.responses';
-import { ICharactersModel } from '../models/model.character';
+import { IResponsePersonajes, ICharactersModel } from '../models';
 
 export const setDataCharacters = (data: IResponsePersonajes): ICharactersModel => ({
     rows: data.records.map((r) => {

@@ -32,3 +32,12 @@ export interface IResponse {
     messages?: string[];
     errors?: string[] | unknown[];
 }
+
+export interface ICharacter {
+    id: number;
+    name: string;
+    weight: string;
+    age: number;
+    story: string;
+    image: number;
+}
