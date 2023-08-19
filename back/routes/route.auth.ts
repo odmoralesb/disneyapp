@@ -27,12 +27,12 @@ router.post(
 router.post(
     "/register",
     [
-        check("nombreusuario", "El nombre de usuario es obligatorio")
+        check("username", "El nombre de usuario es obligatorio")
             .not()
             .isEmpty(),
-        check("nombres", "El nombre es obligatorio").not().isEmpty(),
-        check("apellidos", "El apellido es obligatorio").not().isEmpty(),
-        check("clave", "La clave es obligatoria").not().isEmpty(),
+        check("firstname", "El nombre es obligatorio").not().isEmpty(),
+        check("lastname", "El apellido es obligatorio").not().isEmpty(),
+        check("password", "La clave es obligatoria").not().isEmpty(),
         validateFields
     ],
     register

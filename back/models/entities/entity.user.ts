@@ -57,8 +57,8 @@ export const Adapter = (data: IUser): IUserModelResponse => ({
     rol_id: data.role_id,
     clave: data.password,
     rol: {
-        nombre: data.role.name,
-        descripcion: data.role.description
+        nombre: data.role?.name,
+        descripcion: data.role?.description
     }
 });
 
