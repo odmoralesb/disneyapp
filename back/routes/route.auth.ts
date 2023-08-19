@@ -10,7 +10,7 @@ const router = Router();
 router.post(
     "/login",
     [
-        check("nombreusuario", "El nombre de usuario es obligatorio")
+        check("username", "El nombre de usuario es obligatorio")
             .not()
             .isEmpty(),
         validateFields

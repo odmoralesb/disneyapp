@@ -14,14 +14,11 @@ export const registerUser = async (req: Request): Promise<IResponse> => {
         const { body } = req;
         const errors = [...(await validateUser({ ...body }))];
         if (errors.length == 0) {
-            const usuario = (await RepositoryUser.save(body)).toJSON();
-
-            const { id, clave, ...response } = usuario;
-
+            const user = await RepositoryUser.save(body);
             return {
                 status: 200,
                 messages: [],
-                payload: { usuario: response }
+                payload: { user }
             };
         } else {
             return { status: 409, errors };
@@ -44,7 +41,7 @@ export const login = async (req: Request): Promise<IResponse> => {
         const { body } = req;
 
         const entityUser = await RepositoryUser.getUserByUsername(
-            body.nombreusuario
+            body.username
         );
 
         if (!!!entityUser) {
@@ -53,28 +50,29 @@ export const login = async (req: Request): Promise<IResponse> => {
 
         const u = entityUser.toJSON<IUser>();
 
-        const { id, clave, createdAt, updatedAt, rol_id, ...usuario } = (
-            await RepositoryUser.getUser(u.id || 0)
-        )?.toJSON();
+        const user = await RepositoryUser.getUser(u.id || 0);
 
-        const validatePassCrypt = bcryptjs.compareSync(body.clave, clave);
+        const validatePassCrypt = bcryptjs.compareSync(
+            body.password,
+            user.password || ""
+        );
 
         if (!validatePassCrypt) {
             return { status: 409, errors: ["Acceso Denegado"] };
         }
 
-        if (usuario.superusuario) {
-            usuario.rol.nombre = "SUPERADMIN";
+        if (user.is_superuser) {
+            user.role.name = "SUPERADMIN";
         }
 
         const token = await generateJWT({
             id: u.id,
-            rol: usuario?.rol?.nombre
+            role: user?.role?.name
         });
 
         return {
             status: 200,
-            payload: { token, usuario }
+            payload: { token, user }
         };
     } catch (error) {
         console.log(error);
@@ -107,9 +105,9 @@ export const signin = async (req: Request): Promise<IResponse> => {
             );
         })
             .then(async (res) => {
-                const { id, rol } = res as IToken;
+                const { id, role } = res as IToken;
 
-                if (rol === "ADMIN-DB") {
+                if (role === "ADMIN-DB") {
                     return {
                         status: 200,
                         payload: { token: false, expirated: false }
@@ -124,20 +122,15 @@ export const signin = async (req: Request): Promise<IResponse> => {
                     };
                 }
 
-                const entityUser = await RepositoryUser.getUser(id);
+                const user = await RepositoryUser.getUser(id);
 
-                if (!entityUser) {
+                if (!user.id) {
                     return {
                         status: 500,
                         payload: { token: false, expirated: false },
-                        errors: ["Token invalido"]
+                        errors: ["Usuario no encontrado"]
                     };
                 }
-
-                const { clave, createdAt, updatedAt, rol_id, ...user } =
-                    entityUser.toJSON<IUser>();
-
-                delete user.id;
 
                 return {
                     status: 200,
@@ -172,7 +165,7 @@ export const signin = async (req: Request): Promise<IResponse> => {
 const validateUser = async (user: IUser): Promise<string[]> => {
     const errors: string[] = [];
 
-    if (await RepositoryUser.existsUser(user.nombreusuario))
+    if (await RepositoryUser.existsUser(user.username))
         errors.push(`Este usuario ya esta registrado`);
 
     return errors;
