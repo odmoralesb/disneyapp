@@ -20,4 +20,20 @@ export interface IResponseUser {
     usuario: IUserData;
 }
 
+export interface IImagenData {
+    id: number;
+    ruta: string;
+}
 
+export interface IPersonajeData {
+    id: number;
+    nombre: string;
+    edad: number;
+    peso: string;
+    imagen: IImagenData;
+    historia: string;
+}
+
+export interface IResponsePersonajes {
+    records: IPersonajeData[];
+}

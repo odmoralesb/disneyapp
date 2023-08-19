@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import {
     Card,
     CardActions,
@@ -13,8 +15,38 @@ import {
 import Typography from '@mui/material/Typography';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+// models
+import { IResponsePersonajes, ICharacterModel, ICharactersModel } from '../../../models';
+
+// adapters
+import { setResponseAdapter } from '../../../adapters';
+import * as AdapterCharacter from '../../../adapters/adapter.character';
+
+import { useFetch } from '../../../hooks/fetch';
+
+// services
+import * as serviceCharacter from '../../../services/service.character';
+
 export const Characters = () => {
-    const rows: any = [];
+    const { callEndpoint } = useFetch();
+    const [data, setData] = useState<ICharactersModel>({ rows: [] });
+
+    const onLoadCharacters = async () => {
+        const loadCharacters = serviceCharacter.getCharacters();
+        callEndpoint(loadCharacters)
+            .then((resp) => {
+                const data = setResponseAdapter<IResponsePersonajes>(resp.data);
+                if (data.payload.records) setData(AdapterCharacter.setDataCharacters(data.payload));
+            })
+            .catch((e) => {
+                console.error(e);
+                return;
+            });
+    };
+
+    useEffect(() => {
+        onLoadCharacters();
+    }, []);
 
     return (
         <>
@@ -33,31 +65,21 @@ export const Characters = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: 'bold' }}>Imagen</TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
-                                        Nombre
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
-                                        Edad
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
-                                        Peso
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
-                                        Historia
-                                    </TableCell>
-                                    <TableCell align="right" sx={{ fontWeight: 'bold' }}>
-                                        Películas
-                                    </TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Edad</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Peso</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Historia</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Películas</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row: any) => (
-                                    <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                {data.rows.map((row: ICharacterModel) => (
+                                    <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell>Imagen</TableCell>
-                                        <TableCell>{row.nombre}</TableCell>
-                                        <TableCell>{row.edad}</TableCell>
-                                        <TableCell>{row.peso}</TableCell>
-                                        <TableCell>{row.historia}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>{row.age}</TableCell>
+                                        <TableCell>{row.weight}</TableCell>
+                                        <TableCell>{row.story}</TableCell>
                                         <TableCell>Peliculas</TableCell>
                                     </TableRow>
                                 ))}

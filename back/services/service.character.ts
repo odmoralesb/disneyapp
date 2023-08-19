@@ -21,11 +21,6 @@ export const getCharacters = async (req: Request): Promise<IResponse> => {
             sage = { edad: query.age };
         }
 
-        let order = "ASC";
-        if (query.order == "ASC" || query.order == "DESC") {
-            order = query.order;
-        }
-
         const specification = {
             ...sname,
             ...sage
@@ -33,8 +28,7 @@ export const getCharacters = async (req: Request): Promise<IResponse> => {
 
         const characters =
             await RepositoryCharacter.getCharactersBySpecification(
-                specification,
-                order
+                specification
             );
 
         const { rows } = characters;
