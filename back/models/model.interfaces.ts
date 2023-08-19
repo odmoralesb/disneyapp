@@ -36,7 +36,7 @@ export interface IResponse {
 export interface ICharacter {
     id: number;
     name: string;
-    weight: string;
+    weight: number;
     age: number;
     story: string;
     image: number;

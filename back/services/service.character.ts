@@ -64,13 +64,11 @@ export const registerCharacter = async (req: Request): Promise<IResponse> => {
             return { status: 409, errors };
         }
 
-        const charcater = (await RepositoryCharacter.save(body)).toJSON();
-
-        const { id, updatedAt, createdAt, ...response } = charcater;
+        const charcater = await RepositoryCharacter.save(body);
 
         return {
             status: 200,
-            payload: { charcater: response }
+            payload: { charcater }
         };
     } catch (error) {
         console.log(error);
