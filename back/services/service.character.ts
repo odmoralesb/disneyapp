@@ -36,11 +36,7 @@ export const getCharacters = async (req: Request): Promise<IResponse> => {
         return {
             status: 200,
             payload: {
-                records: rows.map((h) => {
-                    const r = h.toJSON();
-                    delete r.id;
-                    return r;
-                })
+                records: rows
             }
         };
     } catch (error) {

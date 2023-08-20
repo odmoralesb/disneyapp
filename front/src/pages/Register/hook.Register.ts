@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 // models
-import { TCreateAdminSU } from './model.Register';
+import { TRegister } from './model.Register';
 
 // states - redux
 import { resetUser } from '../../redux/states';
@@ -26,7 +26,7 @@ export const usePageRegister = () => {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<TCreateAdminSU>();
+    } = useForm<TRegister>();
 
     const { displayErrors, displayMessage } = useDisplayMessages();
 
@@ -36,15 +36,15 @@ export const usePageRegister = () => {
 
     const dispatch = useDispatch();
 
-    const onSubmit = async (data: TCreateAdminSU) => {
-        const { nombreusuario, nombres, apellidos, clave, confirm } = data;
+    const onSubmit = async (data: TRegister) => {
+        const { username, firstname, lastname, password, confirm } = data;
 
-        if (clave != confirm) {
+        if (password != confirm) {
             displayErrors(['Confirme su contraseña']);
             return;
         }
 
-        const resp = setResponseAdapter((await callEndpoint(registeruser({ nombreusuario, nombres, apellidos, clave }))).data);
+        const resp = setResponseAdapter((await callEndpoint(registeruser({ username, firstname, lastname, password }))).data);
 
         const { errors, messages } = resp;
 

@@ -91,7 +91,7 @@ export default function NavbarComponent() {
         setOpen(!open);
     };
 
-    const userState = useSelector((store: IAppStore) => store.usuario);
+    const userState = useSelector((store: IAppStore) => store.user);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -116,7 +116,7 @@ export default function NavbarComponent() {
                             <MenuIcon />
                         </IconButton>
                         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                            Dashboard - {`${userState.nombreusuario}`}
+                            Dashboard - {`${userState.username}`}
                         </Typography>
                         <Logout />
                     </Toolbar>

@@ -15,12 +15,33 @@ export const getCharacter = async (id: Identifier) => {
     return c;
 };
 
+// export const getCharactersBySpecification = async (specifications = {}) => {
+//     const rows = await Character.findAll({
+//         where: { ...specifications },
+//         include: { model: File },
+//         order: [["id", "ASC"]]
+//     });
+//     return { rows };
+// };
+
 export const getCharactersBySpecification = async (specifications = {}) => {
-    const rows = await Character.findAll({
+    const r = await Character.findAll({
         where: { ...specifications },
         include: { model: File },
         order: [["id", "ASC"]]
     });
+
+    const rows = r.map((r) => {
+        const c = r.toJSON<ICharacterModelResponse>();
+        return {
+            id: c.id,
+            name: c.nombre,
+            age: c.edad,
+            weight: c.peso,
+            story: c.historia
+        };
+    });
+
     return { rows };
 };
 

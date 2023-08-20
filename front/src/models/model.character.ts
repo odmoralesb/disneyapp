@@ -1,6 +1,6 @@
 export interface IImageModel {
     id: number;
-    ruta: string;
+    path: string;
 }
 
 export interface ICharacterModel {

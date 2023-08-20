@@ -1,6 +1,6 @@
 export interface IRequestRegister {
-    nombreusuario: string;
-    nombres: string;
-    apellidos: string;
-    clave: string;
+    username: string;
+    firstname: string;
+    lastname: string;
+    password: string;
 }

@@ -9,11 +9,11 @@ import * as AdapterUser from '../../adapters/adapter.user';
 import { persistToken } from '../../utils/helpers';
 
 const INITIAL_STATE: IUserState = {
-    nombreusuario: '',
-    nombres: '',
-    apellidos: '',
-    rol: '',
-    superusuario: false,
+    username: '',
+    firstname: '',
+    lastname: '',
+    role: '',
+    is_superuser: false,
     token: ''
 };
 
@@ -30,11 +30,11 @@ const loadInitialState = async (): Promise<IUserState> => {
         return INITIAL_STATE;
     }
 
-    if (!payload || !payload.usuario) {
+    if (!payload || !payload.user) {
         return INITIAL_STATE;
     }
 
-    return AdapterUser.setState(payload.usuario, token as string);
+    return AdapterUser.setState(payload.user, token as string);
 };
 
 export const userSlice = createSlice({

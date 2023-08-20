@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const RoleGuard = ({ roles }: IProps) => {
-    const userState = useSelector((store: IAppStore) => store.user);
+    const userState = useSelector((store: IAppStore) => store.username);
     const userRole = userState.role as Role;
     return roles?.includes(userRole) ? <Outlet /> : <Navigate to={`/`} />;
 };

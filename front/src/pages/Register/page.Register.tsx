@@ -3,7 +3,7 @@ import React from 'react';
 import { TextField, Button, Container, Typography } from '@mui/material';
 
 // models
-import { TCreateAdminSU } from './model.Register';
+import { TRegister } from './model.Register';
 
 // custom hooks
 import useRegister from './hook.Register';
@@ -32,31 +32,31 @@ const Register: React.FC = () => {
                         margin="normal"
                         fullWidth
                         label="Alias de usuario"
-                        {...register('nombreusuario', { required: 'El usuario es requerido' })}
+                        {...register('username', { required: 'El usuario es requerido' })}
                     />
-                    <div className="error-form">{displayErrorForm<TCreateAdminSU>(errors, 'nombreusuario')}</div>
+                    <div className="error-form">{displayErrorForm<TRegister>(errors, 'username')}</div>
 
                     <TextField
                         margin="normal"
                         fullWidth
                         label="Nombre de usuario"
-                        {...register('nombres', { required: 'El nombre es requerido' })}
+                        {...register('firstname', { required: 'El nombre es requerido' })}
                     />
-                    <div className="error-form">{displayErrorForm<TCreateAdminSU>(errors, 'nombres')}</div>
+                    <div className="error-form">{displayErrorForm<TRegister>(errors, 'firstname')}</div>
 
                     <TextField
                         margin="normal"
                         fullWidth
                         label="Apellido de usuario"
-                        {...register('apellidos', { required: 'El apellido es requerido' })}
+                        {...register('lastname', { required: 'El apellido es requerido' })}
                     />
-                    <div className="error-form">{displayErrorForm<TCreateAdminSU>(errors, 'apellidos')}</div>
+                    <div className="error-form">{displayErrorForm<TRegister>(errors, 'lastname')}</div>
 
-                    <TextField margin="normal" fullWidth label="Contraseña" type="password" {...register('clave')} />
-                    <div className="error-form">{displayErrorForm<TCreateAdminSU>(errors, 'clave')}</div>
+                    <TextField margin="normal" fullWidth label="Contraseña" type="password" {...register('password')} />
+                    <div className="error-form">{displayErrorForm<TRegister>(errors, 'password')}</div>
 
                     <TextField margin="normal" fullWidth label="Confirmar contraseña" type="password" {...register('confirm')} />
-                    <div className="error-form">{displayErrorForm<TCreateAdminSU>(errors, 'clave')}</div>
+                    <div className="error-form">{displayErrorForm<TRegister>(errors, 'password')}</div>
 
                     <Button fullWidth variant="contained" color="primary" onClick={handleSubmit((data) => onSubmit(data))}>
                         Aceptar
