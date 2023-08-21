@@ -6,5 +6,6 @@ export const PublicRoutes = {
 export const PrivateRoutes = {
     DASHBOARD: 'dashboard',
     MOVIES: 'movies',
-    CHARACTERS: 'characters'
+    CHARACTERS: 'characters',
+    CREATECHARACTER: 'create'
 };

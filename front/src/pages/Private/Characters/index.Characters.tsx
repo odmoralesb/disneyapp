@@ -12,11 +12,11 @@ import {
     TableHead,
     TableRow
 } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 // models
-import { IResponsePersonajes, ICharacterModel, ICharactersModel } from '../../../models';
+import { IResponsePersonajes, ICharacterModel, ICharactersModel, PrivateRoutes } from '../../../models';
 
 // adapters
 import { setResponseAdapter } from '../../../adapters';
@@ -52,8 +52,13 @@ export const Characters = () => {
         <>
             <Card sx={{ minWidth: 275, mt: '7px' }}>
                 <CardActions sx={{ backgroundColor: '#C4D3DC' }}>
-                    <IconButton color="primary" aria-label="add an alarm">
-                        <AddCircleOutlineIcon />
+                    <IconButton color="primary">
+                        <Link
+                            to={`/${PrivateRoutes.DASHBOARD}/${PrivateRoutes.CHARACTERS}/${PrivateRoutes.CREATECHARACTER}`}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            <AddCircleOutlineIcon />
+                        </Link>
                     </IconButton>
                 </CardActions>
                 <CardContent>
