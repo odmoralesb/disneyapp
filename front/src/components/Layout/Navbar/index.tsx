@@ -9,13 +9,11 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems } from './listitems';
 
 import { useSelector } from 'react-redux';
@@ -93,7 +91,7 @@ export default function NavbarComponent() {
         setOpen(!open);
     };
 
-    const userState = useSelector((store: IAppStore) => store.usuario);
+    const userState = useSelector((store: IAppStore) => store.user);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -118,7 +116,7 @@ export default function NavbarComponent() {
                             <MenuIcon />
                         </IconButton>
                         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-                            Dashboard - {`${userState.nombreusuario}`}
+                            Dashboard - {`${userState.username}`}
                         </Typography>
                         <Logout />
                     </Toolbar>
@@ -157,8 +155,7 @@ export default function NavbarComponent() {
                                     sx={{
                                         p: 2,
                                         display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240
+                                        flexDirection: 'column'
                                     }}
                                 >
                                     <Outlet />

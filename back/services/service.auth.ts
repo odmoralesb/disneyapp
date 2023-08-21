@@ -9,67 +9,71 @@ import * as RepositoryUser from "../repositories/repository.user";
 
 import { generateJWT } from "../helpers/jwt";
 
+export const registerUser = async (req: Request): Promise<IResponse> => {
+    try {
+        const { body } = req;
+        const errors = [...(await validateUser({ ...body }))];
+        if (errors.length == 0) {
+            const user = await RepositoryUser.save(body);
+            return {
+                status: 200,
+                messages: [],
+                payload: { user }
+            };
+        } else {
+            return { status: 409, errors };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            errors: [
+                "Ocurrio un error interno en el servidor. Hable con el administrador"
+            ]
+        };
+    }
+};
+
 export const login = async (req: Request): Promise<IResponse> => {
     try {
         dotenv.config();
 
         const { body } = req;
 
-        const DB_USERNAME = process.env.DB_USERNAME;
-        const DB_PASSWORD = process.env.DB_PASSWORD;
+        const entityUser = await RepositoryUser.getUserByUsername(
+            body.username
+        );
 
-        if (body.nombreusuario == DB_USERNAME) {
-            if (body.clave == DB_PASSWORD) {
-                const token = await generateJWT({
-                    nombreusuario: DB_USERNAME,
-                    rol: "ADMIN-DB"
-                });
-
-                return {
-                    status: 200,
-                    payload: {
-                        token,
-                        usuario: { rol: { nombre: "ADMIN-DB" } }
-                    }
-                };
-            } else {
-                return { status: 409, errors: ["Acceso Denegado"] };
-            }
-        } else {
-            const entityUser = await RepositoryUser.getUserByUsername(
-                body.nombreusuario
-            );
-
-            if (!!!entityUser) {
-                return { status: 409, errors: ["Acceso Denegado"] };
-            }
-
-            const u = entityUser.toJSON<IUser>();
-
-            const { id, clave, createdAt, updatedAt, rol_id, ...usuario } = (
-                await RepositoryUser.getUser(u.id || 0)
-            )?.toJSON();
-
-            const validatePassCrypt = bcryptjs.compareSync(body.clave, clave);
-
-            if (!validatePassCrypt) {
-                return { status: 409, errors: ["Acceso Denegado"] };
-            }
-
-            if (usuario.superusuario) {
-                usuario.rol.nombre = "SUPERADMIN";
-            }
-
-            const token = await generateJWT({
-                id: u.id,
-                rol: usuario?.rol?.nombre
-            });
-
-            return {
-                status: 200,
-                payload: { token, usuario }
-            };
+        if (!!!entityUser) {
+            return { status: 409, errors: ["Acceso Denegado"] };
         }
+
+        const u = entityUser.toJSON<IUser>();
+
+        const user = await RepositoryUser.getUser(u.id || 0);
+
+        const validatePassCrypt = bcryptjs.compareSync(
+            body.password,
+            user.password || ""
+        );
+
+        if (!validatePassCrypt) {
+            return { status: 409, errors: ["Acceso Denegado"] };
+        }
+
+        if (user.is_superuser) {
+            user.role.name = "SUPERADMIN";
+        }
+
+        const token = await generateJWT({
+            id: u.id,
+            role: user?.role?.name
+        });
+
+        return {
+            status: 200,
+            payload: { token, user }
+        };
     } catch (error) {
         console.log(error);
         return {
@@ -101,9 +105,9 @@ export const signin = async (req: Request): Promise<IResponse> => {
             );
         })
             .then(async (res) => {
-                const { id, rol } = res as IToken;
+                const { id, role } = res as IToken;
 
-                if (rol === "ADMIN-DB") {
+                if (role === "ADMIN-DB") {
                     return {
                         status: 200,
                         payload: { token: false, expirated: false }
@@ -118,20 +122,15 @@ export const signin = async (req: Request): Promise<IResponse> => {
                     };
                 }
 
-                const entityUser = await RepositoryUser.getUser(id);
+                const user = await RepositoryUser.getUser(id);
 
-                if (!entityUser) {
+                if (!user.id) {
                     return {
                         status: 500,
                         payload: { token: false, expirated: false },
-                        errors: ["Token invalido"]
+                        errors: ["Usuario no encontrado"]
                     };
                 }
-
-                const { clave, createdAt, updatedAt, rol_id, ...user } =
-                    entityUser.toJSON<IUser>();
-
-                delete user.id;
 
                 return {
                     status: 200,
@@ -159,4 +158,15 @@ export const signin = async (req: Request): Promise<IResponse> => {
             errors: [error.message]
         };
     }
+};
+
+// local validations
+
+const validateUser = async (user: IUser): Promise<string[]> => {
+    const errors: string[] = [];
+
+    if (await RepositoryUser.existsUser(user.username))
+        errors.push(`Este usuario ya esta registrado`);
+
+    return errors;
 };

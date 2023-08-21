@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import * as ServiceAuth from "../services/service.auth";
-
-import * as ServiceUser from "../services/service.user";
 import * as ServiceRole from "../services/service.role";
 
 export const login = async (req: Request, res: Response) => {
@@ -20,7 +18,7 @@ export const register = async (req: Request, res: Response) => {
     req.body.superusuario = true;
     req.body.rol_id = await ServiceRole.getRole("USER");
 
-    const { status, ...response } = await ServiceUser.registerUser(req);
+    const { status, ...response } = await ServiceAuth.registerUser(req);
 
     res.status(status).json(response);
 };

@@ -11,22 +11,18 @@ interface IProps {
 }
 
 export const AuthGuard = ({ roles }: IProps) => {
-    const userState = useSelector((store: IAppStore) => store.usuario);
+    const userState = useSelector((store: IAppStore) => store.user);
 
-    const userRole = userState.rol as Role;
+    const userRole = userState.role as Role;
 
     switch (userRole) {
         case Role.ADMINDB:
             return roles?.includes(userRole) ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
         default:
             if (roles) {
-                return userState.nombreusuario && roles.includes(userRole) ? (
-                    <Outlet />
-                ) : (
-                    <Navigate replace to={`/${PublicRoutes.LOGIN}`} />
-                );
+                return userState.username && roles.includes(userRole) ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
             } else {
-                return userState.nombreusuario ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
+                return userState.username ? <Outlet /> : <Navigate replace to={`/${PublicRoutes.LOGIN}`} />;
             }
     }
 };

@@ -1,7 +1,7 @@
-export type TCreateAdminSU = {
-    nombreusuario: string;
-    nombres: string;
-    apellidos: string;
-    clave: string;
+export type TRegister = {
+    username: string;
+    firstname: string;
+    lastname: string;
+    password: string;
     confirm: string;
 };

@@ -11,8 +11,6 @@ export const validateJWTAdminDB = async (
 ) => {
     const token = req.header("x-token");
 
-    
-
     if (!token) {
         return res
             .status(401)
@@ -22,17 +20,16 @@ export const validateJWTAdminDB = async (
     try {
         const SECRETORPRIVATEKEY = process.env.SECRETORPRIVATEKEY || "";
 
-        const { nombreusuario, rol } = jwt.verify(
+        const { username, role } = jwt.verify(
             token,
             SECRETORPRIVATEKEY
         ) as IToken;
 
-
-        if (!nombreusuario) {
+        if (!username) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        if (rol !== "ADMIN-DB") {
+        if (role !== "ADMIN-DB") {
             return res.status(401).json({
                 errors: [
                     "Usuario no tiene autorizacion para realizar esta peticion"
@@ -63,23 +60,19 @@ export const validateJWTSUAdmin = async (
     try {
         const SECRETORPRIVATEKEY = process.env.SECRETORPRIVATEKEY || "";
 
-        console.log("# TOKEN SECRETORPRIVATEKEY: ", SECRETORPRIVATEKEY)
-
         const { id } = jwt.verify(token, SECRETORPRIVATEKEY) as IToken;
 
         if (!id) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const entityUser = await RepositoryUser.getUser(id);
+        const user = await RepositoryUser.getUser(id);
 
-        if (!entityUser) {
+        if (!user.id) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const user = entityUser.toJSON<IUser>();
-
-        if (!user.superusuario) {
+        if (!user.is_superuser) {
             return res.status(401).json({
                 errors: [
                     "Usuario no tiene autorizacion para realizar esta peticion"
@@ -116,15 +109,13 @@ export const validateJWTAdmin = async (
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const entityUser = await RepositoryUser.getUser(id);
+        const user = await RepositoryUser.getUser(id);
 
-        if (!entityUser) {
+        if (!user.id) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const user = entityUser.toJSON<IUser>();
-
-        if (user.role?.nombre !== "ADMIN") {
+        if (user.role?.name !== "ADMIN") {
             return res.status(401).json({
                 errors: [
                     "Usuario no tiene autorizacion para realizar esta peticion"
@@ -161,15 +152,13 @@ export const validateJWT = async (
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const entityUser = await RepositoryUser.getUser(id);
+        const user = await RepositoryUser.getUser(id);
 
-        if (!entityUser) {
+        if (!user.id) {
             return res.status(401).json({ errors: ["Token invalido"] });
         }
 
-        const user = entityUser.toJSON<IUser>();
-
-        if (!user) {
+        if (!user.id) {
             return res.status(401).json({
                 errors: [
                     "Usuario no tiene autorizacion para realizar esta peticion"
@@ -183,5 +172,3 @@ export const validateJWT = async (
         res.status(401).json({ errors: ["Token invalido"] });
     }
 };
-
-

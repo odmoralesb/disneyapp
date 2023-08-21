@@ -1,31 +1,25 @@
 import { IUserData } from '../models';
-import {
-    IResponseLogin,
-    IResponseUser,
-} from '../models/model.responses';
+import { IResponseLogin, IResponseUser } from '../models/model.responses';
 
-export const setState = (usuario: IUserData, token: string) => ({
-    nombreusuario: usuario.nombreusuario,
-    nombres: usuario.nombres,
-    apellidos: usuario.apellidos,
-    superusuario: usuario.superusuario,
-    rol: usuario.rol ? usuario.rol.nombre : '',
+export const setState = (username: IUserData, token: string) => ({
+    username: username.username,
+    firstname: username.firstname,
+    lastname: username.lastname,
+    is_superuser: username.is_superuser,
+    role: username.role ? username.role.name : '',
     token
 });
 
 export const setPayloadLogin = (data: IResponseLogin) => ({
-    usuario: data.usuario,
+    username: data.user,
     token: data.token
 });
 
 export const setPayloadUser = (data: IResponseUser) => ({
     user: {
-        username: data.usuario.nombreusuario,
-        firstname: data.usuario.nombres,
-        lastname: data.usuario.apellidos,
-        is_superuser: data.usuario.superusuario
+        username: data.username.username,
+        firstname: data.username.firstname,
+        lastname: data.username.lastname,
+        is_superuser: data.username.is_superuser
     }
 });
-
-
-

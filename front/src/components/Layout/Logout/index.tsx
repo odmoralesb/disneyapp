@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { resetUser } from '../../../redux/states';
 
 import IconButton from '@mui/material/IconButton';
-import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Person';
 import ListItemText from '@mui/material/ListItemText';
 
 import { useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { IAppStore } from '../../../redux/store';
 
 export const Logout = () => {
-    const userState = useSelector((store: IAppStore) => store.usuario);
+    const userState = useSelector((store: IAppStore) => store.user);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,8 +22,8 @@ export const Logout = () => {
         navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
     };
     return (
-        <IconButton color="inherit">
-            <PersonIcon onClick={logOut} />
+        <IconButton color="inherit" onClick={logOut}>
+            <LockIcon />
         </IconButton>
     );
 };

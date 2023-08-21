@@ -4,6 +4,8 @@ export const PublicRoutes = {
 };
 
 export const PrivateRoutes = {
-    CREATEADMINSU: 'createadminsu',
-    DASHBOARD: 'dashboard'
+    DASHBOARD: 'dashboard',
+    MOVIES: 'movies',
+    CHARACTERS: 'characters',
+    CREATECHARACTER: 'create'
 };

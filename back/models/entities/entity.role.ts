@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../../db/connection";
+import { IRole } from "../model.interfaces";
 
 const Role = db.define(
     "role",
@@ -20,5 +21,15 @@ const Role = db.define(
         timestamps: false
     }
 );
+
+export interface IRoleModelResponse {
+    nombre: string;
+    descripcion: string;
+}
+
+export const Adapter = (data: IRole): IRoleModelResponse => ({
+    nombre: data.name,
+    descripcion: data.description
+});
 
 export default Role;
