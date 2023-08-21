@@ -4,9 +4,9 @@ import { RouteNotFound } from '../../../components';
 
 import { MasterCharacters } from './master.Characters';
 import { Characters } from './index.Characters';
-import { CreateCharacter } from './create.Character';
+import { CreateCharacter } from './Create/create.Character';
 
-import { PrivateRoutes, Role } from '../../../models';
+import { PrivateRoutes } from '../../../models';
 
 export const Routes = () => {
     return (
