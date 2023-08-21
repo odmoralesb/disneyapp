@@ -36,13 +36,20 @@ Character.hasOne(File, {
     foreignKey: "id"
 });
 
-export const Adapter = (data: ICharacter) => ({
+export interface ICharacterModelResponse {
+    id: number;
+    nombre: string;
+    edad: number;
+    peso: number;
+    historia: string;
+}
+
+export const Adapter = (data: ICharacter): ICharacterModelResponse => ({
     id: data.id,
     nombre: data.name,
     edad: data.age,
     peso: data.weight,
-    historia: data.story,
-    imagen: data.image
+    historia: data.story
 });
 
 export default Character;

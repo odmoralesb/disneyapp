@@ -6,11 +6,11 @@ import * as Request from '../models/model.requests';
 import { loadAbort, createAxios } from '../utils';
 import { persistToken } from '../utils/helpers';
 
-export const login = (nombreusuario: string, clave: string) => {
+export const login = (username: string, password: string) => {
     const controller = loadAbort();
     const axios = createAxios(config.API_URL);
     return {
-        call: axios.post<IUserData>('/auth/login', { nombreusuario, clave }, { signal: controller.signal }).catch((e) => {
+        call: axios.post<IUserData>('/auth/login', { username, password }, { signal: controller.signal }).catch((e) => {
             return e.response;
         }),
         controller

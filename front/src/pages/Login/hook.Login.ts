@@ -39,11 +39,7 @@ export const usePageLogin = () => {
     const navigate = useNavigate();
 
     const onSubmit = async (data: TLogin) => {
-
-
-        const resp = setResponseAdapter<IResponseLogin>((await callEndpoint(login(data.nombreusuario, data.clave))).data);
-
-        
+        const resp = setResponseAdapter<IResponseLogin>((await callEndpoint(login(data.username, data.password))).data);
 
         const { errors } = resp;
 
@@ -52,13 +48,13 @@ export const usePageLogin = () => {
             return;
         }
 
-        const { usuario, token } = AdapterUser.setPayloadLogin(resp.payload);
+        const { username, token } = AdapterUser.setPayloadLogin(resp.payload);
 
-        if (token && usuario) {
-            dispatch(setUser(AdapterUser.setState(usuario, token as string)));
-            switch (usuario.rol?.nombre) {
+        if (token && username) {
+            dispatch(setUser(AdapterUser.setState(username, token as string)));
+            switch (username.role?.name) {
                 case Role.ADMINDB:
-                    navigate(`/${PrivateRoutes.CREATEADMINSU}`, { replace: true });
+                    navigate(`/${PrivateRoutes.DASHBOARD}`, { replace: true });
                     break;
                 default:
                     navigate(`/${PrivateRoutes.DASHBOARD}`, { replace: true });

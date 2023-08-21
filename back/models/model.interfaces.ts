@@ -1,29 +1,28 @@
 export interface IToken {
     id?: number;
-    nombreusuario: string;
-    rol: string;
+    username: string;
+    role: string;
     exp: number;
     iat: number;
 }
 
 export interface IUser {
-    id?: number;
-    nombreusuario: string;
-    clave: string;
-    nombres: string;
-    apellidos: string;
-    email: string;
-    superusuario: boolean;
-    rol_id?: number;
-    role?: IRole;
+    id: number;
+    username: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+    is_superuser: boolean;
+    role_id: number;
+    role: IRole;
     createdAt: Date;
     updatedAt: Date;
 }
 
 export interface IRole {
     id: number;
-    nombre: string;
-    descripcion: string;
+    name: string;
+    description: string;
 }
 
 export interface IResponse {
@@ -36,7 +35,7 @@ export interface IResponse {
 export interface ICharacter {
     id: number;
     name: string;
-    weight: string;
+    weight: number;
     age: number;
     story: string;
     image: number;

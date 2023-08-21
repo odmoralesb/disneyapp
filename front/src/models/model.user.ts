@@ -5,10 +5,10 @@ export enum Role {
 }
 
 export interface IUserState {
-    nombreusuario: string;
-    nombres: string;
-    apellidos: string;
-    rol: string;
-    superusuario: boolean;
+    username: string;
+    firstname: string;
+    lastname: string;
+    role: string;
+    is_superuser: boolean;
     token: string;
 }
