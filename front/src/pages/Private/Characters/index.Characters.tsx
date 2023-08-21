@@ -50,9 +50,6 @@ export const Characters = () => {
 
     return (
         <>
-            <Typography variant="h6" sx={{ width: '100%', backgroundColor: '#CCCCCC', p: '3px 10px 3px 10px', color: 'blue' }}>
-                Personajes
-            </Typography>
             <Card sx={{ minWidth: 275, mt: '7px' }}>
                 <CardActions sx={{ backgroundColor: '#C4D3DC' }}>
                     <IconButton color="primary" aria-label="add an alarm">
