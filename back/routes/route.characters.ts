@@ -20,7 +20,19 @@ router.post(
         check("name", "El nombre del personaje es obligatorio").not().isEmpty(),
         check("age", "La edad del personaje es obligatorio").not().isEmpty(),
         check("weight", "El peso del personaje es obligatorio").not().isEmpty(),
-        validateFields
+        validateFields,
+        check("files[0][file]")
+            .custom((value, { req }) => {
+                if (
+                    req.files["files[0][file]"].mimetype === "image/jpeg" ||
+                    req.files["files[0][file]"].mimetype === "image/png"
+                ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            .withMessage("Solo se admiten archivos con imagenes png o jpeg")
     ],
     createCharacter
 );

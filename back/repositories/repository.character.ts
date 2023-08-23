@@ -6,6 +6,8 @@ import {
     ICharacterModelResponse
 } from "./../models/entities/entity.character";
 
+import { IFileModelResponse } from "./../models/entities/entity.file";
+
 import { ICharacter } from "../models/model.interfaces";
 
 export const getCharacter = async (id: Identifier) => {
@@ -14,15 +16,6 @@ export const getCharacter = async (id: Identifier) => {
     });
     return c;
 };
-
-// export const getCharactersBySpecification = async (specifications = {}) => {
-//     const rows = await Character.findAll({
-//         where: { ...specifications },
-//         include: { model: File },
-//         order: [["id", "ASC"]]
-//     });
-//     return { rows };
-// };
 
 export const getCharactersBySpecification = async (specifications = {}) => {
     const r = await Character.findAll({
@@ -38,7 +31,13 @@ export const getCharactersBySpecification = async (specifications = {}) => {
             name: c.nombre,
             age: c.edad,
             weight: c.peso,
-            story: c.historia
+            story: c.historia,
+            image: r.toJSON().file
+                ? {
+                      id: r.toJSON().file.id,
+                      path: r.toJSON().file.ruta
+                  }
+                : null
         };
     });
 

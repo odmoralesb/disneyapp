@@ -1,11 +1,19 @@
+import dotenv from "dotenv";
+
 //libraries
 import { Request } from "express";
+import { UploadedFile } from "express-fileupload";
+import * as fs from "fs";
 
 // models
 import { IResponse } from "../models/model.interfaces";
 
 // repositories
 import * as RepositoryCharacter from "../repositories/repository.character";
+import * as RepositoryFile from "../repositories/repository.file";
+
+// helpers
+import { guid } from "./../helpers/guid";
 
 export const getCharacters = async (req: Request): Promise<IResponse> => {
     try {
@@ -52,19 +60,41 @@ export const getCharacters = async (req: Request): Promise<IResponse> => {
 
 export const registerCharacter = async (req: Request): Promise<IResponse> => {
     try {
-        const { body } = req;
+        const { body, files } = req;
 
         const errors: any = [];
+
+        const img = files && (files.image as UploadedFile);
+
+        if (!img) {
+            errors.push("Archivo no encontrado");
+        }
+
+        const ext = img?.name.split(".")[1];
+        const FOLDER_IMG = process.env.FOLDER_IMG || "";
+        const img_path = `${FOLDER_IMG}/${guid()}.${ext}`;
+
+        const base = `${__dirname}/../public`;
+
+        await Promise.all([img?.mv(`${base}${img_path}`)]).catch((error) => {
+            errors.push("Ocurrio un error subiendo los archivos: " + error);
+        });
 
         if (errors.length > 0) {
             return { status: 409, errors };
         }
 
-        const charcater = await RepositoryCharacter.save(body);
+        const file = await RepositoryFile.add({
+            path: img_path
+        });
+
+        body.file = file.id;
+
+        const character = await RepositoryCharacter.save(body);
 
         return {
             status: 200,
-            payload: { charcater }
+            payload: { character }
         };
     } catch (error) {
         console.log(error);

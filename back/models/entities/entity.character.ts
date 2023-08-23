@@ -32,16 +32,27 @@ const Character = db.define(
     }
 );
 
+/*
 Character.hasOne(File, {
     foreignKey: "id"
 });
+*/
+
+File.hasOne(Character, {
+    foreignKey: "imagen"
+});
+
+Character.belongsTo(File, {
+    foreignKey: "imagen"
+});
 
 export interface ICharacterModelResponse {
-    id: number;
+    id?: number;
     nombre: string;
     edad: number;
     peso: number;
     historia: string;
+    imagen?: number | Object;
 }
 
 export const Adapter = (data: ICharacter): ICharacterModelResponse => ({
@@ -49,7 +60,8 @@ export const Adapter = (data: ICharacter): ICharacterModelResponse => ({
     nombre: data.name,
     edad: data.age,
     peso: data.weight,
-    historia: data.story
+    historia: data.story,
+    imagen: data.file
 });
 
 export default Character;
