@@ -38,7 +38,7 @@ const User = db.define(
 );
 
 export interface IUserModelResponse {
-    id: number;
+    id?: number;
     nombreusuario: string;
     nombres: string;
     apellidos: string;
