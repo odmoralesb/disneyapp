@@ -1,3 +1,5 @@
+import config from '../../../config';
+
 import { useEffect, useState } from 'react';
 
 import {
@@ -77,8 +79,20 @@ export const Characters = () => {
                             <TableBody>
                                 {data.rows.map((row: ICharacterModel) => (
                                     <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell>Imagen</TableCell>
-                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>
+                                            <img src={`${config.DIR_STL}${row.image?.path}`} width={40} height={40} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Link
+                                                to={`/${PrivateRoutes.DASHBOARD}/${PrivateRoutes.CHARACTERS}/${PrivateRoutes.UPDATECHARACTER}`.replace(
+                                                    ':id',
+                                                    row.id.toString()
+                                                )}
+                                                style={{ textDecoration: 'none' }}
+                                            >
+                                                {row.name}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>{row.age}</TableCell>
                                         <TableCell>{row.weight}</TableCell>
                                         <TableCell>{row.story}</TableCell>

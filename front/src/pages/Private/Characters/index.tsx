@@ -5,6 +5,7 @@ import { RouteNotFound } from '../../../components';
 import { MasterCharacters } from './master.Characters';
 import { Characters } from './index.Characters';
 import { CreateCharacter } from './Create/create.Character';
+import { UpdateCharacter } from './Update/update.Character';
 
 import { PrivateRoutes } from '../../../models';
 
@@ -14,6 +15,7 @@ export const Routes = () => {
             <Route path="/" element={<MasterCharacters />}>
                 <Route index element={<Characters />} />
                 <Route path={`/${PrivateRoutes.CREATECHARACTER}`} element={<CreateCharacter />} />
+                <Route path={`/${PrivateRoutes.UPDATECHARACTER}`} element={<UpdateCharacter />} />
             </Route>
         </RouteNotFound>
     );

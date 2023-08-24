@@ -1,34 +1,25 @@
+import config from '../../../../config';
+
 // libraries
 import React, { useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 
 // models
-import { TCreateCharacter } from './model.CreateCharacter';
+import { TCreateCharacter } from './model.UpdateCharacter';
 
 // custom hooks
-import useCreateCharacter from './hook.CreateCharacter';
+import useCreateCharacter from './hook.UpateCharacter';
 
 // helpers
 import { displayErrorForm } from '../../../../utils/helpers';
 
 import { PrivateRoutes } from '../../../../models';
 
-export const CreateCharacter = () => {
-    const { register, handleSubmit, onSubmit, errors, selectedFile, setSelectedFile, preview, setPreview, onSelectFile } =
+export const UpdateCharacter = () => {
+    const { register, handleSubmit, onSubmit, errors, selectedFile, setSelectedFile, preview, setPreview, onSelectFile, character } =
         useCreateCharacter();
 
-    useEffect(() => {
-        if (!selectedFile) {
-            setPreview(undefined);
-            return;
-        }
-
-        const objectUrl = URL.createObjectURL(selectedFile);
-        setPreview(objectUrl);
-
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl);
-    }, [selectedFile]);
+    console.log('# character: ', character);
 
     return (
         <>
@@ -42,22 +33,19 @@ export const CreateCharacter = () => {
                     }}
                 >
                     <div style={{ border: '1px dotted black', paddingTop: '7px' }}>
-                        {selectedFile && <img src={preview} width={100} height={100} />}
+                        <img src={`${config.DIR_STL}${character?.image?.path}`} width={100} height={100} />
                     </div>
                 </div>
 
+                <br />
+
                 <TextField
-                    margin="normal"
-                    fullWidth
-                    type="file"
-                    {...register('image')}
-                    onChange={(e) => onSelectFile(e.target as HTMLInputElement)}
-                />
-                <TextField
+                    sx={{ marginTop: '15px' }}
                     margin="normal"
                     fullWidth
                     label="Nombre del Personaje"
-                    {...register('name', { required: 'El nombre del personaje es requerido' })}
+                    focused
+                    {...register('name', { required: 'El nombre del personaje es requerido', value: character?.name || '' })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'name')}</div>
 
@@ -66,7 +54,8 @@ export const CreateCharacter = () => {
                     fullWidth
                     label="Edad"
                     type="number"
-                    {...register('age', { required: 'La edad es requerida' })}
+                    focused
+                    {...register('age', { required: 'La edad es requerida', value: character?.age.toString() })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'age')}</div>
 
@@ -75,15 +64,16 @@ export const CreateCharacter = () => {
                     fullWidth
                     label="Peso"
                     type="number"
-                    {...register('weight', { required: 'El apellido es requerido' })}
+                    focused
+                    {...register('weight', { required: 'El apellido es requerido', value: character?.weight.toString() })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'weight')}</div>
 
-                <TextField margin="normal" fullWidth label="Historia" {...register('story')} />
+                <TextField margin="normal" fullWidth label="Historia" focused {...register('story', { value: character?.story })} />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'story')}</div>
 
                 <Button fullWidth variant="contained" color="primary" onClick={handleSubmit((data) => onSubmit(data))}>
-                    Aceptar
+                    Actualizar
                 </Button>
                 <br />
                 <br />
@@ -100,4 +90,4 @@ export const CreateCharacter = () => {
     );
 };
 
-export default CreateCharacter;
+export default UpdateCharacter;

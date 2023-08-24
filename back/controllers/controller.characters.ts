@@ -13,3 +13,20 @@ export const createCharacter = async (req: Request, res: Response) => {
     );
     res.status(status).json(response);
 };
+
+export const updateCharacter = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { status, ...response } = await ServiceCharacter.updateCharacter(
+        id,
+        req
+    );
+    res.status(status).json(response);
+};
+
+export const getCharacter = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { status, ...response } = await ServiceCharacter.getCharacter(
+        parseInt(id)
+    );
+    res.status(status).json(response);
+};

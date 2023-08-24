@@ -7,7 +7,7 @@ export interface IToken {
 }
 
 export interface IUser {
-    id: number;
+    id?: number;
     username: string;
     password: string;
     firstname: string;
@@ -20,7 +20,7 @@ export interface IUser {
 }
 
 export interface IRole {
-    id: number;
+    id?: number;
     name: string;
     description: string;
 }
@@ -32,11 +32,17 @@ export interface IResponse {
     errors?: string[] | unknown[];
 }
 
+export interface IFile {
+    id?: number;
+    path: string;
+}
+
 export interface ICharacter {
-    id: number;
+    id?: number;
     name: string;
     weight: number;
     age: number;
     story: string;
-    image: number;
+    image: number | Object;
+    file?: IFile;
 }

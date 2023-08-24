@@ -1,4 +1,4 @@
-import { IResponsePersonajes, ICharactersModel } from '../models';
+import { IResponsePersonajes, IResponsePersonaje, ICharactersModel } from '../models';
 
 export const setDataCharacters = (data: IResponsePersonajes): ICharactersModel => ({
     rows: data.records.map((r) => {
@@ -11,4 +11,15 @@ export const setDataCharacters = (data: IResponsePersonajes): ICharactersModel =
             story: r.story
         };
     })
+});
+
+export const setPayloadCharacter = (data: IResponsePersonaje) => ({
+    character: {
+        id: data.character.id,
+        name: data.character.name,
+        age: data.character.age,
+        weight: data.character.weight,
+        image: data.character.image,
+        story: data.character.story
+    }
 });

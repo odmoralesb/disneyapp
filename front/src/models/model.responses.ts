@@ -37,3 +37,7 @@ export interface IPersonajeData {
 export interface IResponsePersonajes {
     records: IPersonajeData[];
 }
+
+export interface IResponsePersonaje {
+    character: IPersonajeData;
+}
