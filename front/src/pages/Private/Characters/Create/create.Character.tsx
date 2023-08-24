@@ -1,5 +1,5 @@
 // libraries
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 
 // models
@@ -14,10 +14,33 @@ import { displayErrorForm } from '../../../../utils/helpers';
 import { PrivateRoutes } from '../../../../models';
 
 export const CreateCharacter = () => {
-    const { register, handleSubmit, onSubmit, errors } = useCreateCharacter();
+    const { register, handleSubmit, onSubmit, errors, selectedFile, setSelectedFile, preview, setPreview, onSelectFile } =
+        useCreateCharacter();
+
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined);
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile);
+        setPreview(objectUrl);
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [selectedFile]);
+
     return (
         <>
             <form>
+                <div>{selectedFile && <img src={preview} />}</div>
+                <TextField
+                    margin="normal"
+                    fullWidth
+                    type="file"
+                    {...register('image')}
+                    onChange={(e) => onSelectFile(e.target as HTMLInputElement)}
+                />
                 <TextField
                     margin="normal"
                     fullWidth

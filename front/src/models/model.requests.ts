@@ -10,4 +10,5 @@ export interface IRequestCreateCharacter {
     age: string;
     weight: string;
     story: string;
+    image: File;
 }

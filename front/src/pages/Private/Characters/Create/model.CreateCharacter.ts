@@ -3,4 +3,5 @@ export type TCreateCharacter = {
     age: string;
     weight: string;
     story: string;
+    image: File[];
 };

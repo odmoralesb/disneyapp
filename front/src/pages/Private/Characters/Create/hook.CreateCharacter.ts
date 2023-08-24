@@ -16,6 +16,7 @@ import { setResponseAdapter } from '../../../../adapters';
 import { useFetch } from '../../../../hooks/fetch';
 import { useDisplayMessages } from '../../../../hooks/messages';
 import { PrivateRoutes } from '../../../../models';
+import { useState } from 'react';
 
 // Helpers
 
@@ -26,6 +27,9 @@ export const usePageCreateCharacter = () => {
         formState: { errors }
     } = useForm<TCreateCharacter>();
 
+    const [selectedFile, setSelectedFile] = useState<File>();
+    const [preview, setPreview] = useState<string>();
+
     const { displayErrors, displayMessage } = useDisplayMessages();
 
     const navigate = useNavigate();
@@ -35,9 +39,11 @@ export const usePageCreateCharacter = () => {
     const dispatch = useDispatch();
 
     const onSubmit = async (data: TCreateCharacter) => {
-        const { name, age, weight, story } = data;
+        const { name, age, weight, story, image } = data;
 
-        const resp = setResponseAdapter((await callEndpoint(createcharacter({ name, age, weight, story }))).data);
+        console.log('# data file: ', data);
+
+        const resp = setResponseAdapter((await callEndpoint(createcharacter({ name, age, weight, story, image: image[0] }))).data);
 
         const { errors, messages } = resp;
 
@@ -55,7 +61,16 @@ export const usePageCreateCharacter = () => {
         navigate(`/${PrivateRoutes.DASHBOARD}/${PrivateRoutes.CHARACTERS}`, { replace: true });
     };
 
-    return { register, handleSubmit, onSubmit, errors };
+    const onSelectFile = (target: HTMLInputElement) => {
+        if (!target.files || target.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        setSelectedFile(target.files[0]);
+    };
+
+    return { register, handleSubmit, onSubmit, errors, selectedFile, setSelectedFile, preview, setPreview, onSelectFile };
 };
 
 export default usePageCreateCharacter;

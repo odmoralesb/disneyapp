@@ -23,8 +23,16 @@ export const createcharacter = (request: Request.IRequestCreateCharacter) => {
     const controller = loadAbort();
     const token: string | null = persistToken.get();
     const axios = createAxios(config.API_URL, token);
+
+    const formData = new FormData();
+    formData.append('name', request.name);
+    formData.append('age', request.age);
+    formData.append('weight', request.weight);
+    request.story && formData.append('story', request.story);
+    formData.append('image', request.image);
+
     return {
-        call: axios.post<IPersonajeData>('/characters', request, { signal: controller.signal }).catch((e) => {
+        call: axios.post<IPersonajeData>('/characters', formData, { signal: controller.signal }).catch((e) => {
             return e.response;
         }),
         controller

@@ -32,12 +32,6 @@ const Character = db.define(
     }
 );
 
-/*
-Character.hasOne(File, {
-    foreignKey: "id"
-});
-*/
-
 File.hasOne(Character, {
     foreignKey: "imagen"
 });
