@@ -43,7 +43,8 @@ export const UpdateCharacter = () => {
                     sx={{ marginTop: '15px' }}
                     margin="normal"
                     fullWidth
-                    placeholder="Nombre del Personaje"
+                    label="Nombre del Personaje"
+                    focused
                     {...register('name', { required: 'El nombre del personaje es requerido', value: character?.name || '' })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'name')}</div>
@@ -51,8 +52,9 @@ export const UpdateCharacter = () => {
                 <TextField
                     margin="normal"
                     fullWidth
-                    placeholder="Edad"
+                    label="Edad"
                     type="number"
+                    focused
                     {...register('age', { required: 'La edad es requerida', value: character?.age.toString() })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'age')}</div>
@@ -60,13 +62,14 @@ export const UpdateCharacter = () => {
                 <TextField
                     margin="normal"
                     fullWidth
-                    placeholder="Peso"
+                    label="Peso"
                     type="number"
+                    focused
                     {...register('weight', { required: 'El apellido es requerido', value: character?.weight.toString() })}
                 />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'weight')}</div>
 
-                <TextField margin="normal" fullWidth placeholder="Historia" {...register('story', { value: character?.story })} />
+                <TextField margin="normal" fullWidth label="Historia" focused {...register('story', { value: character?.story })} />
                 <div className="error-form">{displayErrorForm<TCreateCharacter>(errors, 'story')}</div>
 
                 <Button fullWidth variant="contained" color="primary" onClick={handleSubmit((data) => onSubmit(data))}>
