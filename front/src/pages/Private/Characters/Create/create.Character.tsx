@@ -32,8 +32,20 @@ export const CreateCharacter = () => {
 
     return (
         <>
-            <form>
-                <div>{selectedFile && <img src={preview} />}</div>
+            <form style={{ width: '50%', margin: '0 auto 0 auto' }}>
+                <div
+                    style={{
+                        width: '100%',
+                        height: '100px',
+                        textAlign: 'center',
+                        marginTop: '10px'
+                    }}
+                >
+                    <div style={{ border: '1px dotted black', paddingTop: '7px' }}>
+                        {selectedFile && <img src={preview} width={100} height={100} />}
+                    </div>
+                </div>
+
                 <TextField
                     margin="normal"
                     fullWidth
