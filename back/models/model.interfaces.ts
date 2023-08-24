@@ -43,6 +43,6 @@ export interface ICharacter {
     weight: number;
     age: number;
     story: string;
-    image: number;
-    file: IFile;
+    image: number | Object;
+    file?: IFile;
 }

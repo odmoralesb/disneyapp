@@ -106,3 +106,39 @@ export const registerCharacter = async (req: Request): Promise<IResponse> => {
         };
     }
 };
+
+export const updateCharacter = async (
+    id: string,
+    req: Request
+): Promise<IResponse> => {
+    try {
+        const { body } = req;
+
+        const errors: any = [];
+
+        if (errors.length > 0) {
+            return { status: 409, errors };
+        }
+
+        const entityCharacter = await RepositoryCharacter.getCharacter(id);
+
+        if (entityCharacter) {
+            const character = await RepositoryCharacter.update(id, body);
+
+            return {
+                status: 200,
+                payload: { character }
+            };
+        } else {
+            return { status: 409, errors: ["Personaje no registrado"] };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            errors: [
+                "Ocurrio un error interno en el servidor. Hable con el administrador"
+            ]
+        };
+    }
+};

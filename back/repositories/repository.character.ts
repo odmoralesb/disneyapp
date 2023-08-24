@@ -11,10 +11,22 @@ import { IFileModelResponse } from "./../models/entities/entity.file";
 import { ICharacter } from "../models/model.interfaces";
 
 export const getCharacter = async (id: Identifier) => {
-    const c = await Character.findByPk(id, {
-        include: { model: File }
-    });
-    return c;
+    const c = (
+        await Character.findByPk(id, {
+            include: { model: File }
+        })
+    )?.toJSON();
+
+    return c
+        ? {
+              id: c.id,
+              name: c.nombre,
+              age: c.edad,
+              weight: c.peso,
+              story: c.historia,
+              image: c.imagen
+          }
+        : null;
 };
 
 export const getCharactersBySpecification = async (specifications = {}) => {
@@ -58,4 +70,25 @@ export const save = async (data: ICharacter) => {
         weight: character.peso,
         story: character.historia
     };
+};
+
+export const update = async (id: Identifier, data: ICharacter) => {
+    const entity = await Character.findByPk(id);
+    const character =
+        entity &&
+        (
+            await entity.update({
+                ...AdapterCharacter(data)
+            })
+        ).toJSON<ICharacterModelResponse>();
+    return character
+        ? {
+              id: character.id,
+              name: character.nombre,
+              age: character.edad,
+              weight: character.peso,
+              story: character.historia,
+              image: character.imagen
+          }
+        : null;
 };

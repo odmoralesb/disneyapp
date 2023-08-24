@@ -5,7 +5,8 @@ import { validateJWT, validateFields } from "../middlewares";
 
 import {
     getCharacters,
-    createCharacter
+    createCharacter,
+    updateCharacter
 } from "../controllers/controller.characters";
 
 const router = Router();
@@ -36,6 +37,20 @@ router.post(
         validateFields
     ],
     createCharacter
+);
+
+router.put(
+    "/:id",
+    [
+        validateJWT,
+        validateFields,
+        check("id", "El id del personaje es obligatorio").not().isEmpty(),
+        check("name", "El nombre del personaje es obligatorio").not().isEmpty(),
+        check("age", "La edad del personaje es obligatorio").not().isEmpty(),
+        check("weight", "El peso del personaje es obligatorio").not().isEmpty(),
+        validateFields
+    ],
+    updateCharacter
 );
 
 export default router;
