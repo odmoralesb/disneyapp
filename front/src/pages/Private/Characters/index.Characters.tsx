@@ -82,7 +82,17 @@ export const Characters = () => {
                                         <TableCell>
                                             <img src={`${config.DIR_STL}${row.image?.path}`} width={40} height={40} />
                                         </TableCell>
-                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>
+                                            <Link
+                                                to={`/${PrivateRoutes.DASHBOARD}/${PrivateRoutes.CHARACTERS}/${PrivateRoutes.UPDATECHARACTER}`.replace(
+                                                    ':id',
+                                                    row.id.toString()
+                                                )}
+                                                style={{ textDecoration: 'none' }}
+                                            >
+                                                {row.name}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>{row.age}</TableCell>
                                         <TableCell>{row.weight}</TableCell>
                                         <TableCell>{row.story}</TableCell>

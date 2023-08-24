@@ -142,3 +142,25 @@ export const updateCharacter = async (
         };
     }
 };
+
+export const getCharacter = async (id: number): Promise<IResponse> => {
+    try {
+        const character = await RepositoryCharacter.getCharacter(id);
+        if (character) {
+            return {
+                status: 200,
+                payload: { character }
+            };
+        } else {
+            return { status: 409, errors: ["Paciente no registrado"] };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            status: 500,
+            errors: [
+                "Ocurrio un error interno en el servidor. Hable con el administrador"
+            ]
+        };
+    }
+};

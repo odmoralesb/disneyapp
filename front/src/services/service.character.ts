@@ -38,3 +38,28 @@ export const createcharacter = (request: Request.IRequestCreateCharacter) => {
         controller
     };
 };
+
+export const getCharacter = (id: string) => {
+    const controller = loadAbort();
+    const token: string | null = persistToken.get();
+    const axios = createAxios(config.API_URL, token);
+    return {
+        call: axios.get<IPersonajeData>(`/characters/${id}`, { signal: controller.signal }).catch((e) => {
+            return e.response;
+        }),
+        controller
+    };
+};
+
+export const updateCharacter = (id: string, request: Request.IRequestUpdateCharacter) => {
+    const controller = loadAbort();
+    const token: string | null = persistToken.get();
+    const axios = createAxios(config.API_URL, token);
+    console.log('# request::', request);
+    return {
+        call: axios.put<IPersonajeData>(`/characters/${id}`, request, { signal: controller.signal }).catch((e) => {
+            return e.response;
+        }),
+        controller
+    };
+};

@@ -12,3 +12,10 @@ export interface IRequestCreateCharacter {
     story: string;
     image: File;
 }
+
+export interface IRequestUpdateCharacter {
+    name: string;
+    age: string;
+    weight: string;
+    story: string;
+}

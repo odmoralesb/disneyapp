@@ -7,5 +7,6 @@ export const PrivateRoutes = {
     DASHBOARD: 'dashboard',
     MOVIES: 'movies',
     CHARACTERS: 'characters',
-    CREATECHARACTER: 'create'
+    CREATECHARACTER: 'create',
+    UPDATECHARACTER: 'update/:id'
 };

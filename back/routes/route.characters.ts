@@ -6,7 +6,8 @@ import { validateJWT, validateFields } from "../middlewares";
 import {
     getCharacters,
     createCharacter,
-    updateCharacter
+    updateCharacter,
+    getCharacter
 } from "../controllers/controller.characters";
 
 const router = Router();
@@ -52,5 +53,7 @@ router.put(
     ],
     updateCharacter
 );
+
+router.get("/:id", [validateJWT, validateFields], getCharacter);
 
 export default router;

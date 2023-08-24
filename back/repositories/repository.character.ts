@@ -24,7 +24,10 @@ export const getCharacter = async (id: Identifier) => {
               age: c.edad,
               weight: c.peso,
               story: c.historia,
-              image: c.imagen
+              image: {
+                  id: c.file.id,
+                  path: c.file.ruta
+              }
           }
         : null;
 };
